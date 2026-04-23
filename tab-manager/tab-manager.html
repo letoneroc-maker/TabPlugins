@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tab Manager</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <img src="icons/logo.svg" alt="" class="header-logo">
+        <h1 class="header-title">Tab</h1>
+        <span id="tab-count" class="tab-count">共 0 个标签</span>
+      </div>
+      <div class="header-right">
+        <button id="settings-btn" class="icon-btn" title="设置">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Settings Panel -->
+    <div id="settings-panel" class="settings-panel hidden">
+      <div class="settings-content">
+        <h3>设置</h3>
+        <div class="setting-item">
+          <label>卡片最小宽度 <span id="cols-label">180</span>px</label>
+          <div class="slider-container">
+            <input type="range" id="cols-slider" min="120" max="700" value="200" step="10">
+          </div>
+        </div>
+        <div class="setting-item">
+          <label>缩略图质量</label>
+          <select id="quality-select">
+            <option value="low">低</option>
+            <option value="medium" selected>中</option>
+            <option value="high">高</option>
+          </select>
+        </div>
+        <div class="setting-item">
+          <label>排序方式</label>
+          <select id="sort-select">
+            <option value="manual">手动拖拽</option>
+            <option value="domain">按域名</option>
+            <option value="title">按标题</option>
+            <option value="lastAccessed">最近访问</option>
+          </select>
+        </div>
+        <div class="setting-item">
+          <label>主题</label>
+          <select id="theme-select">
+            <option value="auto" selected>跟随浏览器</option>
+            <option value="light">浅色</option>
+            <option value="dark">深色</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main">
+      <div id="tab-grid" class="tab-grid"></div>
+      <div id="loading" class="loading">
+        <div class="spinner"></div>
+        <p>正在加载标签...</p>
+      </div>
+    </main>
+  </div>
+
+  <!-- Tab Card Template -->
+  <template id="tab-card-template">
+    <div class="tab-card">
+      <div class="tab-icon-area">
+        <div class="tab-icon-bg"></div>
+        <img class="tab-favicon" alt="">
+      </div>
+      <div class="tab-info">
+        <span class="tab-domain"></span>
+        <span class="tab-title"></span>
+      </div>
+      <button class="tab-close" title="关闭">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>

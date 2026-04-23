@@ -1,0 +1,488 @@
+/* =========================================
+   Tab Manager — Dual Theme (Light Milan / Dark)
+   ========================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;590&display=swap');
+
+/* =========================================
+   CSS Variables & Theme
+   ========================================= */
+:root {
+  /* Surfaces — default: Milan Light */
+  --bg-page: #f5f4f1;
+  --bg-panel: #ffffff;
+  --bg-surface: #ffffff;
+  --bg-hover: #f0eeeb;
+  --bg-active: #e8e6e1;
+
+  /* Text */
+  --text-primary: #1a1a1a;
+  --text-secondary: #555550;
+  --text-muted: #909088;
+  --text-dim: #b0aca4;
+
+  /* Brand Accent — warm amber */
+  --accent: #c4905c;
+  --accent-hover: #b07840;
+  --accent-text: #ffffff;
+
+  /* Borders */
+  --border-subtle: rgba(0,0,0,0.06);
+  --border-standard: rgba(0,0,0,0.10);
+  --border-strong: rgba(0,0,0,0.16);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.10);
+
+  /* Sizing */
+  --gap: 10px;
+  --header-height: 52px;
+  --card-height: 60px;
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+  --bg-page: #08090a;
+  --bg-panel: #0f1011;
+  --bg-surface: #191a1b;
+  --bg-hover: #222224;
+  --bg-active: #28282c;
+
+  --text-primary: #f7f8f8;
+  --text-secondary: #d0d6e0;
+  --text-muted: #8a8f98;
+  --text-dim: #62666d;
+
+  --accent: #7170ff;
+  --accent-hover: #828fff;
+  --accent-text: #ffffff;
+
+  --border-subtle: rgba(255,255,255,0.05);
+  --border-standard: rgba(255,255,255,0.08);
+  --border-strong: rgba(255,255,255,0.12);
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+/* =========================================
+   Reset & Base
+   ========================================= */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-feature-settings: 'cv01', 'ss03';
+  background: var(--bg-page);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+img { display: block; }
+
+/* =========================================
+   App
+   ========================================= */
+#app { min-height: 100vh; display: flex; flex-direction: column; }
+
+/* =========================================
+   Header
+   ========================================= */
+.header {
+  height: var(--header-height);
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+
+.header-left { display: flex; align-items: center; gap: 10px; }
+
+.header-logo {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  flex-shrink: 0;
+}
+
+.header-title {
+  font-size: 14px;
+  font-weight: 590;
+  letter-spacing: -0.24px;
+  color: var(--text-primary);
+}
+
+.tab-count {
+  font-size: 12px;
+  font-weight: 510;
+  color: var(--text-dim);
+  background: var(--bg-surface);
+  padding: 3px 9px;
+  border-radius: 4px;
+  border: 1px solid var(--border-subtle);
+}
+
+.header-right { display: flex; align-items: center; gap: 6px; }
+
+.icon-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-dim);
+  transition: all 0.12s;
+  border: 1px solid transparent;
+}
+
+.icon-btn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+  border-color: var(--border-subtle);
+}
+
+/* =========================================
+   Settings Panel
+   ========================================= */
+.settings-panel {
+  position: fixed;
+  top: var(--header-height);
+  right: 20px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-standard);
+  border-radius: 10px;
+  box-shadow: var(--shadow-md);
+  z-index: 200;
+  min-width: 240px;
+  animation: slideDown 0.18s ease;
+}
+
+.settings-panel.hidden { display: none; }
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.settings-content { padding: 14px; }
+
+.settings-content h3 {
+  font-size: 12px;
+  font-weight: 590;
+  letter-spacing: 0.02em;
+  color: var(--text-primary);
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.setting-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 11px;
+}
+
+.setting-item:last-child { margin-bottom: 0; }
+.setting-item label { font-size: 12px; font-weight: 510; color: var(--text-muted); }
+
+.setting-item select {
+  padding: 5px 9px;
+  border-radius: 5px;
+  border: 1px solid var(--border-standard);
+  background: var(--bg-hover);
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 510;
+  font-family: inherit;
+  outline: none;
+  cursor: pointer;
+}
+
+.setting-item select:focus { border-color: var(--accent); }
+
+.slider-container { flex: 1; margin-left: 12px; }
+
+.slider-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--text-dim);
+  font-weight: 400;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 3px;
+  background: var(--border-standard);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 13px;
+  height: 13px;
+  background: var(--accent);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.15); }
+
+input[type="range"]::-moz-range-thumb {
+  width: 13px;
+  height: 13px;
+  background: var(--accent);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* =========================================
+   Main
+   ========================================= */
+.main { flex: 1; padding: 20px; }
+
+/* =========================================
+   Tab Grid — CSS Grid
+   ========================================= */
+.tab-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--card-min-width, 200px), 1fr));
+  gap: var(--gap);
+}
+
+/* =========================================
+   Tab Card — Horizontal: left icon + right text
+   ========================================= */
+.tab-card {
+  height: var(--card-height);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  align-items: stretch;
+  position: relative;
+  box-shadow: var(--shadow-sm);
+  transition:
+    background 0.12s,
+    border-color 0.12s,
+    box-shadow 0.12s,
+    transform 0.18s cubic-bezier(0.2, 1, 0.3, 1);
+  user-select: none;
+}
+
+.tab-card:hover {
+  background: var(--bg-hover);
+  border-color: var(--border-standard);
+  box-shadow: var(--shadow-md);
+}
+
+.tab-card:active { transform: scale(0.98); }
+
+/* =========================================
+   Tab Icon — Left colored square
+   ========================================= */
+.tab-icon-area {
+  width: var(--card-height);
+  height: 100%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Colored gradient bg — theme accent */
+.tab-icon-bg {
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  opacity: 0.15;
+  transition: opacity 0.2s;
+}
+
+.tab-card:hover .tab-icon-bg {
+  opacity: 0.25;
+}
+
+/* Favicon — centered, full visible */
+.tab-favicon {
+  position: relative;
+  z-index: 1;
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.15));
+}
+
+.tab-favicon[src] { opacity: 1; }
+
+/* =========================================
+   Tab Info — Right side text
+   ========================================= */
+.tab-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px 12px 10px 10px;
+  gap: 3px;
+}
+
+.tab-domain {
+  font-size: 12px;
+  font-weight: 590;
+  color: var(--accent);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: -0.1px;
+}
+
+.tab-title {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* =========================================
+   Close Button — Top right corner
+   ========================================= */
+.tab-close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  background: rgba(0,0,0,0.08);
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.12s, background 0.12s, color 0.12s;
+  z-index: 10;
+}
+
+.tab-card:hover .tab-close { opacity: 1; }
+
+.tab-close:hover {
+  background: #ef4444;
+  color: white;
+}
+
+.tab-close svg { width: 9px; height: 9px; }
+
+/* =========================================
+   Loading
+   ========================================= */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: var(--text-dim);
+}
+
+.spinner {
+  width: 28px;
+  height: 28px;
+  border: 2px solid var(--border-standard);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin-bottom: 12px;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading p { font-size: 13px; font-weight: 400; color: var(--text-dim); }
+.loading.hidden { display: none; }
+
+/* =========================================
+   Empty State
+   ========================================= */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  color: var(--text-dim);
+  grid-column: 1 / -1;
+}
+
+.empty-state svg { margin-bottom: 12px; opacity: 0.4; }
+.empty-state p { font-size: 13px; color: var(--text-dim); }
+
+/* =========================================
+   Card Remove Animation
+   ========================================= */
+.tab-card.removing {
+  animation: cardRemove 0.22s ease forwards;
+}
+
+@keyframes cardRemove {
+  0% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.90); }
+}
+
+/* Drag State — NO scatter, simple opacity
+   (avoidance is now done via inline translateX in JS)
+*/
+.tab-card.dragging {
+  opacity: 0.3;
+  cursor: grabbing;
+  z-index: 10;
+}
+
+.tab-card.drag-over {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+/* Drop indicator: empty slot that replaces a card in the grid */
+.drop-indicator {
+  height: var(--card-height);
+  border-radius: 8px;
+  border: 2px dashed var(--accent);
+  background: rgba(196, 144, 92, 0.08);
+  box-sizing: border-box;
+  transition: all 0.15s ease;
+  pointer-events: none;
+}
+
+[data-theme="dark"] .drop-indicator {
+  background: rgba(113, 112, 255, 0.08);
+}
